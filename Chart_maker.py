@@ -6,7 +6,7 @@ import os
 
 def generate_cve_pie_chart(file_path, output_image_path):
     # Read the markdown file content with the correct encoding
-    with open(file_path, 'r', encoding='latin1') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         md_content = file.read()
 
     # Improved regex pattern to capture all port, service, and CVE count entries
@@ -42,10 +42,11 @@ def generate_cve_pie_chart(file_path, output_image_path):
     plt.close()
 
     print(f"Pie chart saved as {final_path}")
+    return final_path
 
 def create_cve_count_by_cvss_chart(md_file_path, output_image_path):
     # Read the markdown file with the correct encoding
-    with open(md_file_path, 'r', encoding='ISO-8859-1') as file:
+    with open(md_file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
     # Improved regex pattern to extract CVSS scores
@@ -77,10 +78,44 @@ def create_cve_count_by_cvss_chart(md_file_path, output_image_path):
     plt.close()
 
     print(f"Bar chart saved as {final_path}")
+    return final_path
+
+def import_image(file_path, pie_chart, bar_chart):
+
+    pie_chart = pie_chart.split("\\")[-1]
+    bar_chart = bar_chart.split("\\")[-1]
+
+    # Read the original markdown content
+    with open(file_path, 'r', encoding='utf-8') as file:
+        markdown_content = file.read()
+
+    # Find the position to insert the new content
+    insert_index = markdown_content.find("## CVEs")
+    if insert_index == -1:
+        return "Section 'CVEs' not found in the markdown content."
+
+    # Define the new sections with images
+    images_section = f"""
+## Répartition des CVEs en fonction des services
+![pie_chart]({pie_chart})
+
+## Repartition des CVEs en fonction de leur score CVSS
+![bar_chart]({bar_chart})
+"""
+    # Insert the new sections into the original content
+    modified_content = markdown_content[:insert_index] + images_section + markdown_content[insert_index:]
+
+    # Save the modified content back to a new markdown file
+    output_file_path = file_path.replace('.md', '_modified.md')
+    with open(output_file_path, 'w', encoding='utf-8') as file:
+        file.write(modified_content)
+
+    return output_file_path
 
 def main(file_path, output_image_path):
-    generate_cve_pie_chart(file_path, output_image_path)
-    create_cve_count_by_cvss_chart(file_path, output_image_path)
+    pie_chart = generate_cve_pie_chart(file_path, output_image_path)
+    bar_chart = create_cve_count_by_cvss_chart(file_path, output_image_path)
+    import_image(file_path, pie_chart, bar_chart)
 
 if __name__ == "__main__":
     main()

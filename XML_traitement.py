@@ -90,7 +90,7 @@ def xml_proccessing(xml_file, ip_dir):
     today = datetime.datetime.today().strftime('%Y-%m-%d')
     filename = f"resultat_scan_penchecker_{today}.md"
 
-    with open(filename, 'w') as f:
+    with open(filename, 'w', encoding='utf-8') as f:
         f.write(f"# Scan Results for IP: {ip_address} (OS: {os_version})\n\n")
         f.write(
             "Voici la liste des services fonctionnant sur les différents ports accessibles de la machine. **Le nombre de CVEs** par service est indiqué entre parenthèse. Si le nombre de CVE est de 0, **nous vous recommandons de vérifier**, si elle est identifiée, **que la version du service est à jour**\n\n")
