@@ -35,7 +35,7 @@ def main():
     if not os.path.exists(rapport_dir):
         os.makedirs(rapport_dir)
 
-    Starter.main()
+    #Starter.main()
 
     for filename in os.listdir(xml_dir):
         xml_tmp = filename
