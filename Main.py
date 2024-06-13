@@ -5,6 +5,7 @@ from datetime import datetime
 import Starter
 import XML_traitement
 import Chart_maker
+import Markdown_Rapport_Maker
 
 print(":::::::::  :::::::::: ::::    :::  ::::::::  :::    ::: :::::::::: ::::::::  :::    ::: :::::::::: :::::::::       :::     :::   :::        :::::::  ")
 print(":+:    :+: :+:        :+:+:   :+: :+:    :+: :+:    :+: :+:       :+:    :+: :+:   :+:  :+:        :+:    :+:      :+:     :+: :+:+:       :+:   :+: ")
@@ -35,7 +36,7 @@ def main():
     if not os.path.exists(rapport_dir):
         os.makedirs(rapport_dir)
 
-    #Starter.main()
+    Starter.main()
 
     for filename in os.listdir(xml_dir):
         xml_tmp = filename
@@ -58,6 +59,8 @@ def main():
 
         img_path_output = os.path.join('Rapport_Tmp', ip)
         Chart_maker.main(md_file, img_path_output)
+
+    Markdown_Rapport_Maker.main()
 
 
 if __name__ == '__main__':
