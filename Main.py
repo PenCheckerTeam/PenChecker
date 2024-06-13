@@ -6,15 +6,16 @@ import Starter
 import XML_traitement
 import Chart_maker
 import Markdown_Rapport_Maker
+from art import *
+from colorama import Fore
+from rich.progress import Progress
+from rich.console import Console
 
-print(":::::::::  :::::::::: ::::    :::  ::::::::  :::    ::: :::::::::: ::::::::  :::    ::: :::::::::: :::::::::       :::     :::   :::        :::::::  ")
-print(":+:    :+: :+:        :+:+:   :+: :+:    :+: :+:    :+: :+:       :+:    :+: :+:   :+:  :+:        :+:    :+:      :+:     :+: :+:+:       :+:   :+: ")
-print("+:+    +:+ +:+        :+:+:+  +:+ +:+        +:+    +:+ +:+       +:+        +:+  +:+   +:+        +:+    +:+      +:+     +:+   +:+       +:+  :+:+ ")
-print("+#++:++#+  +#++:++#   +#+ +:+ +#+ +#+        +#++:++#++ +#++:++#  +#+        +#++:++    +#++:++#   +#++:++#:       +#+     +:+   +#+       +#+ + +:+ ")
-print("+#+        +#+        +#+  +#+#+# +#+        +#+    +#+ +#+       +#+        +#+  +#+   +#+        +#+    +#+       +#+   +#+    +#+       +#+#  +#+ ")
-print("#+#        #+#        #+#   #+#+# #+#    #+# #+#    #+# #+#       #+#    #+# #+#   #+#  #+#        #+#    #+#        #+#+#+#     #+#   #+# #+#   #+# ")
-print("###        ########## ###    ####  ########  ###    ### ########## ########  ###    ### ########## ###    ###          ###     ####### ###  #######  ")
-print("")
+os.system('clear')
+
+art = text2art("PenChecker", font="Aligator2")
+print(Fore.RED + art)
+
 def get_ip_from_xml(xml_file):
     ip_tmp = (xml_file.split("_")[2]).split(".")[:4]
     ip = ip_tmp[0] + "." + ip_tmp[1] + "." + ip_tmp[2] + "." + ip_tmp[3]
@@ -38,27 +39,32 @@ def main():
 
     Starter.main()
 
-    for filename in os.listdir(xml_dir):
-        xml_tmp = filename
-        xml_file = os.path.join(xml_dir, filename)
+    with Progress() as progress:
+        console = Console()
+        console.rule("\n[bold cyan]Traitement des données[/bold cyan]\n")
+        task = progress.add_task("[cyan]Post traitement :", total=len(os.listdir(xml_dir)))
+        for filename in os.listdir(xml_dir):
+            xml_tmp = filename
+            xml_file = os.path.join(xml_dir, filename)
 
-        # Get IP from XML file
-        ip = get_ip_from_xml(xml_tmp)
+            # Get IP from XML file
+            ip = get_ip_from_xml(xml_tmp)
 
-        # Create directory structure for this IP
-        ip_dir = create_directory_structure(ip)
+            # Create directory structure for this IP
+            ip_dir = create_directory_structure(ip)
 
-        # Run the main functions from each script
+            # Run the main functions from each script
 
-        XML_traitement.main(xml_file, ip_dir)
-        #Résultats sauvegardés dans Result_tmp/@ip/resulat_scan_penchecker_@ip.md
+            XML_traitement.main(xml_file, ip_dir)
+            #Résultats sauvegardés dans Result_tmp/@ip/resulat_scan_penchecker_@ip.md
 
-        today = datetime.today().strftime('%Y-%m-%d')
-        md_name = f"resultat_scan_penchecker_{today}.md"
-        md_file = os.path.join(ip_dir, md_name)
+            today = datetime.today().strftime('%Y-%m-%d')
+            md_name = f"resultat_scan_penchecker_{today}.md"
+            md_file = os.path.join(ip_dir, md_name)
 
-        img_path_output = os.path.join('Rapport_Tmp', ip)
-        Chart_maker.main(md_file, img_path_output)
+            img_path_output = os.path.join('Rapport_Tmp', ip)
+            Chart_maker.main(md_file, img_path_output)
+            progress.update(task, advance=1)
 
     Markdown_Rapport_Maker.main()
 

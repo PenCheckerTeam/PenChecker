@@ -1,11 +1,21 @@
 import os
 from datetime import datetime
+from rich.progress import Progress
+from rich.console import Console
+
+from rich.panel import Panel
+
+def messenger(text):
+    console = Console()
+    panel = Panel(text, title="Infos", style="bold white",
+                  border_style="bright_white", expand=False)
+    console.print(panel)
 
 def concat_markdown_files(root_dir):
     # Obtenir la date du jour au format YYYY-MM-DD
     date_du_jour = datetime.now().strftime('%Y-%m-%d')
     filename_pattern = f'resultat_scan_penchecker_{date_du_jour}_modified.md'
-    output_filename = 'resultat_concatenated.md'
+    output_filename = f'Rapport_Final_{date_du_jour}.md'
 
     # Créer/vider le fichier de sortie
     with open(output_filename, 'w', encoding='utf-8') as outfile:
@@ -35,9 +45,8 @@ def concat_markdown_files(root_dir):
                     with open(output_filename, 'a', encoding='utf-8') as outfile:
                         outfile.write(content)
                         outfile.write("\n\n")
-
-    print(f"Fichier concaténé créé : {output_filename}")
-
+    text=f"\nLe rapport final a été créé : {output_filename}"
+    messenger(text)
 
 def main():
     concat_markdown_files('./Rapport_Tmp/')

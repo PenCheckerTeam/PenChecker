@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+pd.options.mode.chained_assignment = None  # default='warn'
 import matplotlib.pyplot as plt
 from collections import Counter
 import os
@@ -41,7 +42,7 @@ def generate_cve_pie_chart(file_path, output_image_path):
     plt.savefig(final_path, format='png')
     plt.close()
 
-    print(f"Pie chart saved as {final_path}")
+    #print(f"Pie chart saved as {final_path}") #debug line
     return final_path
 
 def create_cve_count_by_cvss_chart(md_file_path, output_image_path):
@@ -77,7 +78,7 @@ def create_cve_count_by_cvss_chart(md_file_path, output_image_path):
     plt.savefig(final_path, format='png')
     plt.close()
 
-    print(f"Bar chart saved as {final_path}")
+    #print(f"Bar chart saved as {final_path}") debug line
     return final_path
 
 def import_image(file_path, pie_chart, bar_chart):

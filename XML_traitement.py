@@ -15,7 +15,7 @@ def store_file_in_directory(filename, ip_dir):
     # Move the file
     if os.path.exists(src_file_path):
         shutil.move(src_file_path, dest_file_path)
-        print(f"Moved {filename} to {ip_dir}")
+        #print(f"Moved {filename} to {ip_dir}") #debug line
     else:
         print(f"File {filename} does not exist in the current directory")
 def xml_proccessing(xml_file, ip_dir):
@@ -62,7 +62,7 @@ def xml_proccessing(xml_file, ip_dir):
                             cvss_score = float(parts[1])
                             cve_id = parts[0]
                             cve_list.append((cvss_score, cve_id))
-                            print(f"Found CVE: {cve_id} with CVSS score: {cvss_score} for port: {portid}")  # Debug line
+                            #print(f"Found CVE: {cve_id} with CVSS score: {cvss_score} for port: {portid}")  # Debug line
                         except ValueError:
                             # Ignore lines where the second part is not a valid CVSS score
                             continue
@@ -113,9 +113,7 @@ def xml_proccessing(xml_file, ip_dir):
                     f.write(f"<span style='color:{cve_color};'>**{cvss_score}** | {cve}</span>\n\n")
 
     store_file_in_directory(filename, ip_dir)
-
-    print(f"Markdown file {filename} generated successfully.")
-
+    #print(f"Markdown file {filename} generated successfully.") #debug line
 
 def main(file_path, ip_dir):
     xml_proccessing(file_path, ip_dir)
