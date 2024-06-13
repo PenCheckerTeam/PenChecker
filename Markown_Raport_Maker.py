@@ -32,12 +32,16 @@ def concat_markdown_files(root_dir):
                 # Lire le contenu du fichier et l'ajouter au fichier de sortie
                 with open(file_path, 'r', encoding='utf-8') as infile:
                     content = infile.read()
-                    with open(output_filename, 'a') as outfile:
+                    with open(output_filename, 'a', encoding='utf-8') as outfile:
                         outfile.write(content)
                         outfile.write("\n\n")
 
     print(f"Fichier concaténé créé : {output_filename}")
 
 
-# Utiliser la fonction
-concat_markdown_files('./Rapport_Tmp/')
+def main():
+    concat_markdown_files('./Rapport_Tmp/')
+
+if __name__ == "__main__":
+    main()
+

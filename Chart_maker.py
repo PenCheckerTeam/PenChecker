@@ -82,8 +82,8 @@ def create_cve_count_by_cvss_chart(md_file_path, output_image_path):
 
 def import_image(file_path, pie_chart, bar_chart):
 
-    pie_chart = pie_chart.split("\\")[-1]
-    bar_chart = bar_chart.split("\\")[-1]
+    pie_chart = "./" + pie_chart
+    bar_chart = "./" + bar_chart
 
     # Read the original markdown content
     with open(file_path, 'r', encoding='utf-8') as file:
