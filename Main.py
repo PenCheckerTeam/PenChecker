@@ -6,6 +6,7 @@ import Starter
 import XML_traitement
 import Chart_maker
 import Markdown_Rapport_Maker
+import PDF_Rapport_Maker
 from art import *
 from colorama import Fore
 from colorama import Style
@@ -82,6 +83,7 @@ def main():
             progress.update(task, advance=1)
 
     Markdown_Rapport_Maker.main()
+    PDF_Rapport_Maker.main('./resultat_concatenated.md')
 
 
 if __name__ == '__main__':

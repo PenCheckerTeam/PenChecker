@@ -45,6 +45,15 @@ else
     exit 1
 fi
 
+# Installation de libjpeg-dev et zlib1g-dev
+print_step "Installation de libjpeg-dev et zlib1g-dev..."
+if apt-get install wkhtmltopdf; then
+    print_success "libjpeg-dev et zlib1g-dev installés avec succès."
+else
+    print_error "Erreur lors de l'installation de libjpeg-dev et zlib1g-dev."
+    exit 1
+fi
+
 # Installation de python3.11-venv
 print_step "Installation de python3.11-venv..."
 if apt-get install -y python3.11-venv; then
