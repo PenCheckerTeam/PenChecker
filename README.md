@@ -30,13 +30,7 @@ Then you can just run the main.py program.
 
 ## How to push
 
-```sh
-git add .
-git commit -m "add feature"
-git push origin main
-git tag vX.X
-git push origin vX.X
-```
+push.sh is there to help you commit corrections or modifications you want to propose
 
 ## Special thanks
 
