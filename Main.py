@@ -14,6 +14,7 @@ from rich.progress import Progress
 from rich.console import Console
 import argparse
 
+os.system('clear')
 print(f"""{Fore.RED}
                             ░░░░░░░░░░░░░░░░░
                             ░░░▄░▀▄░░░▄▀░▄░░░
@@ -90,7 +91,7 @@ def main():
             progress.update(task, advance=1)
 
     Markdown_Rapport_Maker.main()
-    PDF_Rapport_Maker.main('./resultat_concatenated.md')
+    PDF_Rapport_Maker.main(f'./Rapport_Final_{today}.md')
 
 
 if __name__ == '__main__':
