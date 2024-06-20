@@ -34,6 +34,12 @@ git tag vX.X
 git push origin vX.X
 ```
 
+## Contact
+
+To report behaviors, or bug with the tool, you can contact us at :
+- alexandre.tornier@oteria.fr
+- matias.dandois@oteria.fr
+
 ## Special thanks
 
 * Paul de Montalivet, Head of Training and Projects at Oteria Cyber School, for his guidance throughout the year.
