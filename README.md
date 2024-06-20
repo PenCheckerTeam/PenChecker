@@ -1,5 +1,5 @@
 # PenChecker
-
+![logo](./logo.png)
 ## Description
 
 PenChecker is a student project carried out as part of our Master 1 year at Oteria Cyber School.
@@ -10,22 +10,23 @@ We wanted to create a tool based on a plug-and-play physical module that would e
 The features currently available on the software are :
 * Scanning and versioning of accessible machines
 * Links service versions to known vulnerabilities
-* Clear and simple report, with known remediation to be implemented, in markdown and pdf versions
+* Clear and simple report, with known remediation to be implemented
 
 ## Getting Ready
 
-### Setting up :
+### For a Kali RaspeberryPI version :
 
-You need to install some dependencies first :
+You need to install some dependencies first :  
 - chmod +x install.sh
-- sudo ./install.sh
-- Everything you need will be install, with the .venv ready to use with python dependecies installed with pip
-- source .venv/bin/activate
+- ./install.sh
+- Then do the same than the next point
 
-Then you can just run the main.py program.  
-You can indicate the network interface from which you want to run the script by doing: `python Main.py --interface interface_name`.  
-Or else, by doing: `python Main.py` the default interface will be "eth0"  
-Note that for a full nmap scan you need to run the programm with elevated privileges (with sudo or run as root)
+### For a basic Kali version :  
+- Install virtualvenv for python and then : python -m venv name_of_your_venv
+- source name_of_your_venv/bin/activate
+- pip install -r requirements.txt
+
+Then you can just run the main.py program.
 
 ## How to push
 
@@ -36,13 +37,6 @@ git push origin main
 git tag vX.X
 git push origin vX.X
 ```
-
-## Contact
-
-To report problems during installation, or bugs with the tool, you can contact us at:
-- alexandre.tornier@oteria.fr
-- matias.dandois@oteria.fr
-- benjamin.di-paola@oteria.fr
 
 ## Special thanks
 
