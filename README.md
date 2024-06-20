@@ -16,13 +16,16 @@ The features currently available on the software are :
 
 ### Setting up :
 
-You need to install some dependencies first :  
+You need to install some dependencies first :
 - chmod +x install.sh
 - sudo ./install.sh
 - Everything you need will be install, with the .venv ready to use with python dependecies installed with pip
 - source .venv/bin/activate
 
-Then you can just run the main.py program. Note that for a full nmap scan you need to run the programm with elevated privileges (with sudo or run as root)
+Then you can just run the main.py program.  
+You can indicate the network interface from which you want to run the script by doing: `python Main.py --interface interface_name`.  
+Or else, by doing: `python Main.py` the default interface will be "eth0"  
+Note that for a full nmap scan you need to run the programm with elevated privileges (with sudo or run as root)
 
 ## How to push
 
