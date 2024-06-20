@@ -45,12 +45,12 @@ else
     exit 1
 fi
 
-# Installation de libjpeg-dev et zlib1g-dev
+# Installation de wkhtmltopdf
 print_step "Installation de libjpeg-dev et zlib1g-dev..."
 if apt-get install wkhtmltopdf; then
-    print_success "libjpeg-dev et zlib1g-dev installés avec succès."
+    print_success "wkhtmltopdf installé avec succès."
 else
-    print_error "Erreur lors de l'installation de libjpeg-dev et zlib1g-dev."
+    print_error "Erreur lors de l'installation de wkhtmltopdf."
     exit 1
 fi
 
@@ -63,12 +63,39 @@ else
     exit 1
 fi
 
+# Création du venv
+print_step "Mise en place du venv..."
+if python3 -m venv .venv; then
+    print_success "venv mis en place avec succès"
+else
+    print_error "Erreur lors de la mise en place du venv"
+    exit 1
+fi
+
+# Activation du venv
+print_step "Activation du venv..."
+if source .venv/bin/activate; then
+    print_success "venv activé avec succès"
+else
+    print_error "Erreur lors de la mise en place du venv"
+    exit 1
+fi
+
 # Mise à jour de pip
 print_step "Mise à jour de pip..."
 if pip install --upgrade pip; then
     print_success "pip mis à jour avec succès."
 else
     print_error "Erreur lors de la mise à jour de pip."
+    exit 1
+fi
+
+# Installation des bibliothèques python
+print_step "Installation en cours..."
+if pip install -r requirements.txt; then
+    print_success "Toutes les bibliothèques ont été installées avec succès"
+else
+    print_error "Erreur lors de l'installation des bibliothèques."
     exit 1
 fi
 
