@@ -63,8 +63,8 @@ def scan_hosts_for_vulns(hosts, result_directory):
             result_file = os.path.join(result_directory, f"result_nmap_{host}.xml")
             subprocess.run(['nmap', '-sV', '--script', 'vulners', '--script-args', 'mincvss=5.0', host, '-oX', result_file, '-A'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             progress.update(task, advance=1)
-def main():
-    interface_name = "eth0"
+def main(interface):
+    interface_name = interface
     ip_address, netmask = get_interface_ip(interface_name)
     if ip_address is None:
         print(f"Could not find IP address for interface {interface_name}.")

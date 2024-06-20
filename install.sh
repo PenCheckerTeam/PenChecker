@@ -45,6 +45,15 @@ else
     exit 1
 fi
 
+# Installation de nmap
+print_step "Installation de nmap"
+if apt-get install nmap; then
+    print_success "nmap installé avec succès."
+else
+    print_error "Erreur lors de l'installation de nmap."
+    exit 1
+fi
+
 # Installation de wkhtmltopdf
 print_step "Installation de libjpeg-dev et zlib1g-dev..."
 if apt-get install wkhtmltopdf; then

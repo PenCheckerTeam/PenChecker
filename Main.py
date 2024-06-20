@@ -12,6 +12,7 @@ from colorama import Fore
 from colorama import Style
 from rich.progress import Progress
 from rich.console import Console
+import argparse
 
 print(f"""{Fore.RED}
                             ░░░░░░░░░░░░░░░░░
@@ -46,6 +47,12 @@ def create_directory_structure(ip):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Entreé l'interface à partir de laquelle lancer le scan")
+    parser.add_argument("--interface", type=str, required=True, help="Nom de l'interface réseau")
+    args = parser.parse_args()
+    interface = args.interface
+    print(f"L'interface réseau spécifiée est : {interface}")
+
     today = datetime.today().strftime('%Y-%m-%d')
     xml_dir = f'xml_result_{today}'
     rapport_dir = 'Rapport_Tmp'
@@ -53,7 +60,7 @@ def main():
     if not os.path.exists(rapport_dir):
         os.makedirs(rapport_dir)
 
-    Starter.main()
+    Starter.main(interface)
 
     with Progress() as progress:
         console = Console()
