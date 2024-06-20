@@ -36,9 +36,10 @@ git push origin vX.X
 
 ## Contact
 
-To report behaviors, or bug with the tool, you can contact us at :
+To report problems during installation, or bugs with the tool, you can contact us at:
 - alexandre.tornier@oteria.fr
 - matias.dandois@oteria.fr
+- benjamin.di-paola@oteria.fr
 
 ## Special thanks
 
