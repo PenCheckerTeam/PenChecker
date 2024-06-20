@@ -8,10 +8,11 @@ import Chart_maker
 import Markdown_Rapport_Maker
 from art import *
 from colorama import Fore
+from colorama import Style
 from rich.progress import Progress
 from rich.console import Console
 
-print("""
+print(f"""{Fore.RED}
                             ░░░░░░░░░░░░░░░░░
                             ░░░▄░▀▄░░░▄▀░▄░░░
                             ░░░█▄███████▄█░░░
@@ -28,7 +29,8 @@ print("""
                                                     [●] Version: 1.4.1
                                                     [●] @Zerxeas | @Dijiox | @IAgonYI\n    
 
-""")
+{Style.RESET_ALL}""")
+
 def get_ip_from_xml(xml_file):
     ip_tmp = (xml_file.split("_")[2]).split(".")[:4]
     ip = ip_tmp[0] + "." + ip_tmp[1] + "." + ip_tmp[2] + "." + ip_tmp[3]
