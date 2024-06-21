@@ -10,23 +10,17 @@ We wanted to create a tool based on a plug-and-play physical module that would e
 The features currently available on the software are :
 * Scanning and versioning of accessible machines
 * Links service versions to known vulnerabilities
-* Clear and simple report, with known remediation to be implemented
+* Clear and simple report
 
 ## Getting Ready
 
-### For a Kali RaspeberryPI version :
-
-You need to install some dependencies first :  
+### Installation :
 - chmod +x install.sh
-- ./install.sh
-- Then do the same than the next point
+- ./install.sh, which will install everything needed, with the python dependencies with pip in .venv
 
-### For a basic Kali version :  
-- Install virtualvenv for python and then : python -m venv name_of_your_venv
-- source name_of_your_venv/bin/activate
-- pip install -r requirements.txt
-
-Then you can just run the main.py program.
+:warning: You have to start .venv in an elevated account (or root) to let nmap perform everything needed.  
+Then you can just run the Main.py program.  
+`python Main.py --interface Interface_name` let you choose the network interface (without it's eth0 by default)
 
 ## How to push
 
