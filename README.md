@@ -15,8 +15,8 @@ The features currently available on the software are :
 ## Getting Ready
 
 ### Installation :
-- chmod +x install.sh
-- ./install.sh, which will install everything needed, with the python dependencies with pip in .venv
+- `chmod +x install.sh`
+- `./install.sh`, which will install everything needed, with the python dependencies with pip in .venv
 
 :warning: You have to start .venv in an elevated account (or root) to let nmap perform everything needed.  
 Then you can just run the Main.py program.  
