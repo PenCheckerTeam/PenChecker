@@ -53,7 +53,7 @@ def create_cve_count_by_cvss_chart(md_file_path, output_image_path):
     # Improved regex pattern to extract CVSS scores
     cvss_scores = re.findall(r"\*\*(\d+\.\d+)\*\*", content)
     if not cvss_scores:
-        print("No CVSS scores found in the markdown file.")
+        print("No CVSS scores found in {md_file_path}. Going on the next one")
         return
 
     # Convert CVSS scores to floats
