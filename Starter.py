@@ -52,8 +52,7 @@ def detect_hosts(ip_address, subnet_mask):
         if 'Nmap scan report for' in line:
             host_ip = line.split()[-1]
             if host_ip != ip_address:  # Exclude the host address
-                hosts.append(validate_and_clean_ip(host_ip))           
-    print(hosts)
+                hosts.append(validate_and_clean_ip(host_ip))
     return hosts
 
 # Create a directory to store XML results
