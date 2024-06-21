@@ -94,7 +94,7 @@ Nombre de machines a scanner : {len(hosts)}
         return
     result_directory = create_result_directory()
     scan_hosts_for_vulns(hosts, result_directory)
-    print(f"Scanning completed. Results are saved in {result_directory}") #debug line
+    #print(f"Scanning completed. Results are saved in {result_directory}") #debug line
 
 if __name__ == "__main__":
     main()
