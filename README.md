@@ -17,14 +17,20 @@ The features currently available on the software are :
 ### For a Kali RaspeberryPI version :
 
 You need to install some dependencies first :  
-- chmod +x install.sh
-- ./install.sh
+```
+chmod +x install.sh
+./install.sh
+```
 - Then do the same than the next point
 
 ### For a basic Kali version :  
-- Install virtualvenv for python and then : python -m venv name_of_your_venv
-- source name_of_your_venv/bin/activate
-- pip install -r requirements.txt
+- Install virtualvenv for python and then : 
+```
+sudo apt install python3-venv
+python -m venv .
+source bin/activate
+pip install -r requirements.txt
+```
 
 Then you can just run the main.py program.
 
