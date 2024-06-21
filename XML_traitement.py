@@ -27,7 +27,7 @@ def xml_proccessing(xml_file, ip_dir):
     try:
         ip_address = root.find('host/address[@addrtype="ipv4"]').get('addr')
     except:
-        print("Can't connect to host " + ip_dir)
+        print("Can't check host directory " + ip_dir)
         return
 
     # Extract OS information
