@@ -2,7 +2,6 @@ import os
 from datetime import datetime
 from rich.progress import Progress
 from rich.console import Console
-
 from rich.panel import Panel
 
 def messenger(text):
@@ -45,7 +44,7 @@ def concat_markdown_files(root_dir):
                     with open(output_filename, 'a', encoding='utf-8') as outfile:
                         outfile.write(content)
                         outfile.write("\n\n")
-    text=f"\nLe rapport final a été créé : {output_filename}"
+    text=f"\nLe rapport final en markdown a été créé : {output_filename}"
     messenger(text)
 
 def main():
