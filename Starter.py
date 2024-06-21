@@ -31,6 +31,17 @@ def get_network_address(ip_address, subnet_mask):
     network = ipaddress.IPv4Network(f"{ip_address}/{subnet_mask}", strict=False)
     # Retourner l'adresse réseau
     return str(network.network_address)
+    
+def validate_and_clean_ip(host_ip):
+    pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+    match = re.search(pattern, host_ip)
+    
+    if match:
+        # Extract the valid IP address
+        valid_ip = match.group(0)
+        return valid_ip
+    else:
+        return None
 
 # Run an aggressive Nmap scan to detect hosts in the network
 def detect_hosts(ip_address, subnet_mask):
@@ -41,7 +52,8 @@ def detect_hosts(ip_address, subnet_mask):
         if 'Nmap scan report for' in line:
             host_ip = line.split()[-1]
             if host_ip != ip_address:  # Exclude the host address
-                hosts.append(host_ip)
+                hosts.append(validate_and_clean_ip(host_ip))           
+    print(hosts)
     return hosts
 
 # Create a directory to store XML results
@@ -83,7 +95,7 @@ Nombre de machines a scanner : {len(hosts)}
         return
     result_directory = create_result_directory()
     scan_hosts_for_vulns(hosts, result_directory)
-    #print(f"Scanning completed. Results are saved in {result_directory}") #debug line
+    print(f"Scanning completed. Results are saved in {result_directory}") #debug line
 
 if __name__ == "__main__":
     main()

@@ -29,7 +29,7 @@ print(f"""{Fore.RED}
     ██║░░░░░███████╗██║░╚███║███████╗██║░░██║███████╗███████╗██║░╚██╗███████╗██║░░██║
     ╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
 
-                                                    [●] Version: 1.5.8
+                                                    [●] Version: 1.6.0
                                                     [●] @Zerxeas | @Dijiox | @IAgonYI\n    
 
 {Style.RESET_ALL}""")
@@ -78,7 +78,6 @@ def main():
             ip_dir = create_directory_structure(ip)
 
             # Run the main functions from each script
-
             XML_traitement.main(xml_file, ip_dir)
             #Résultats sauvegardés dans Result_tmp/@ip/resulat_scan_penchecker_@ip.md
 
@@ -87,7 +86,10 @@ def main():
             md_file = os.path.join(ip_dir, md_name)
 
             img_path_output = os.path.join('Rapport_Tmp', ip)
-            Chart_maker.main(md_file, img_path_output)
+            try:
+                Chart_maker.main(md_file, img_path_output)
+            except:
+                pass
             progress.update(task, advance=1)
 
     Markdown_Rapport_Maker.main()

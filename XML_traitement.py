@@ -24,7 +24,11 @@ def xml_proccessing(xml_file, ip_dir):
     root = tree.getroot()
 
     # Extract IP address
-    ip_address = root.find('host/address[@addrtype="ipv4"]').get('addr')
+    try:
+        ip_address = root.find('host/address[@addrtype="ipv4"]').get('addr')
+    except:
+        print("Can't connect to host " + ip_dir)
+        return
 
     # Extract OS information
     os_info = root.find('.//osmatch')

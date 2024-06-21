@@ -27,6 +27,15 @@ print_info() {
     echo -e "${YELLOW}$1${NC}"
 }
 
+# Mise à jour apt-get
+print_step "Mise à jour apt-get..."
+if apt-get update; then
+    print_success "apt-get a été mis à jour avec succès."
+else
+    print_error "Erreur lors de la mise à jour apt-get."
+    exit 1
+fi
+
 # Installation de cmake
 print_step "Installation de cmake..."
 if apt-get install -y cmake; then
