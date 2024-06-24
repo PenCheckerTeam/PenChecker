@@ -97,7 +97,7 @@ def xml_proccessing(xml_file, ip_dir):
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(f"# Scan Results for IP: {ip_address} (OS: {os_version})\n\n")
         f.write(
-            "Voici la liste des services fonctionnant sur les différents ports accessibles de la machine. **Le nombre de CVEs** par service est indiqué entre parenthèse. Si le nombre de CVE est de 0, **nous vous recommandons de vérifier**, si elle est identifiée, **que la version du service est à jour**\n\n")
+            "Voici la liste des services fonctionnant sur les différents ports accessibles de la machine, **si les champs sont vides**, c'est que le scans n'a rien détecté sur la machine. **Le nombre de CVEs** par service est indiqué entre parenthèse. Si le nombre de CVE est de 0, **nous vous recommandons de vérifier**, si elle est identifiée, **que la version du service est à jour**\n\n")
         f.write("## Ports and Services\n")
         for _, entry, _ in ports_services:
             f.write(f"- {entry}\n")

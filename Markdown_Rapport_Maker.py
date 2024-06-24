@@ -14,6 +14,7 @@ def concat_markdown_files(root_dir):
     # Obtenir la date du jour au format YYYY-MM-DD
     date_du_jour = datetime.now().strftime('%Y-%m-%d')
     filename_pattern = f'resultat_scan_penchecker_{date_du_jour}_modified.md'
+    filename_emptycve_pattern = f'resultat_scan_penchecker_{date_du_jour}.md'
     output_filename = f'Rapport_Final_{date_du_jour}.md'
 
     # Créer/vider le fichier de sortie
@@ -35,16 +36,23 @@ def concat_markdown_files(root_dir):
 
     # Parcourir les sous-dossiers de root_dir
     for subdir, _, files in os.walk(root_dir):
-        for file in files:
-            if file == filename_pattern:
-                file_path = os.path.join(subdir, file)
-                # Lire le contenu du fichier et l'ajouter au fichier de sortie
-                with open(file_path, 'r', encoding='utf-8') as infile:
-                    content = infile.read()
-                    with open(output_filename, 'a', encoding='utf-8') as outfile:
-                        outfile.write(content)
-                        outfile.write("\n\n")
-    text=f"\nLe rapport final en markdown a été créé : {output_filename}"
+        target_file = None
+        if filename_pattern in files:
+            target_file = filename_pattern
+        elif filename_emptycve_pattern in files:
+            target_file = filename_emptycve_pattern
+
+        if target_file:
+            file_path = os.path.join(subdir, target_file)
+            print(file_path)
+            # Read the content of the file and add it to the output file
+            with open(file_path, 'r', encoding='utf-8') as infile:
+                content = infile.read()
+                with open(output_filename, 'a', encoding='utf-8') as outfile:
+                    outfile.write(content)
+                    outfile.write("\n\n")
+
+    text = f"\nLe rapport final en markdown a été créé : {output_filename}"
     messenger(text)
 
 def main():
