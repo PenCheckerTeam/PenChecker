@@ -18,7 +18,7 @@ The features currently available on the software are :
 - `chmod +x install.sh`
 - `./install.sh`, which will install everything needed, with the python dependencies with pip in .venv
 
-:warning: You have to start .venv in an elevated account (or root) to let nmap perform everything needed.  
+:warning: Don't forget to activate the virtual environment : `source .venv/bin/activate`  
 Then you can just run the Main.py program.  
 `python Main.py --interface Interface_name` let you choose the network interface (without it's eth0 by default)
 
