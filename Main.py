@@ -29,7 +29,7 @@ print(f"""{Fore.RED}
     ██║░░░░░███████╗██║░╚███║███████╗██║░░██║███████╗███████╗██║░╚██╗███████╗██║░░██║
     ╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
 
-                                                    [●] Version: 1.6.0
+                                                    [●] Version: 1.6.1
                                                     [●] @Zerxeas | @Dijiox | @IAgonYI\n    
 
 {Style.RESET_ALL}""")
@@ -52,7 +52,6 @@ def main():
     parser.add_argument("--interface", type=str, default="eth0", help="Nom de l'interface réseau (par défaut : eth0)")
     args = parser.parse_args()
     interface = args.interface
-    print(f"L'interface réseau spécifiée est : {interface}")
 
     today = datetime.today().strftime('%Y-%m-%d')
     xml_dir = f'xml_result_{today}'

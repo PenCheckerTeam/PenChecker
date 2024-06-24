@@ -72,6 +72,15 @@ else
     exit 1
 fi
 
+# Installation de fping
+print_step "Installation de fping..."
+if apt-get install fping; then
+    print_success "fping installé avec succès."
+else
+    print_error "Erreur lors de l'installation de fping."
+    exit 1
+fi
+
 # Installation de python3.11-venv
 print_step "Installation de python3.11-venv..."
 if apt-get install -y python3.11-venv; then

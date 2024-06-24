@@ -43,15 +43,15 @@ def validate_and_clean_ip(host_ip):
     else:
         return None
 
-# Run an aggressive Nmap scan to detect hosts in the network
 def detect_hosts(ip_address, subnet_mask):
     ip_range = get_network_address(ip_address, subnet_mask) + '/' + subnet_mask
-    result = subprocess.run(['nmap', '-sn', ip_range], capture_output=True, text=True)
+    fping_result = subprocess.run(['fping', '-c 1', '-g', ip_range], capture_output=True, text=True)
     hosts = []
-    for line in result.stdout.split('\n'):
-        if 'Nmap scan report for' in line:
-            host_ip = line.split()[-1]
-            if host_ip != ip_address:  # Exclude the host address
+    for line in fping_result.stdout.split('\n'):
+        parts = line.split()
+        if parts and not 'timed out' in line:
+            host_ip = parts[0]
+            if host_ip != ip_address: #Exclude the host address
                 hosts.append(validate_and_clean_ip(host_ip))
     return hosts
 
@@ -85,7 +85,8 @@ def main(interface):
 
     text=f"""
 Adresse IP hôte sur {interface_name} : {ip_address}/{netmask}\n
-Nombre de machines a scanner : {len(hosts)}
+Nombre de machines a scanner : {len(hosts)}\n
+Détail : {hosts}
 """
     messenger(text)
 
