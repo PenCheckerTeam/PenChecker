@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 # Couleurs et styles
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -26,6 +28,12 @@ print_error() {
 print_info() {
     echo -e "${YELLOW}$1${NC}"
 }
+
+# Check des droits de l'utilisateur
+if [[ $EUID -ne 0 ]]; then
+    print_error "Ce script doit être exécuté en tant que root" 
+    exit 1
+fi
 
 # Mise à jour apt-get
 print_step "Mise à jour apt-get..."
@@ -56,7 +64,7 @@ fi
 
 # Installation de nmap
 print_step "Installation de nmap"
-if apt-get install nmap; then
+if apt-get install -y nmap; then
     print_success "nmap installé avec succès."
 else
     print_error "Erreur lors de l'installation de nmap."
@@ -65,7 +73,7 @@ fi
 
 # Installation de wkhtmltopdf
 print_step "Installation de libjpeg-dev et zlib1g-dev..."
-if apt-get install wkhtmltopdf; then
+if apt-get install -y wkhtmltopdf; then
     print_success "wkhtmltopdf installé avec succès."
 else
     print_error "Erreur lors de l'installation de wkhtmltopdf."
@@ -74,7 +82,7 @@ fi
 
 # Installation de fping
 print_step "Installation de fping..."
-if apt-get install fping; then
+if apt-get install -y fping; then
     print_success "fping installé avec succès."
 else
     print_error "Erreur lors de l'installation de fping."
