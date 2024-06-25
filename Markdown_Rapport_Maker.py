@@ -10,7 +10,7 @@ def messenger(text):
                   border_style="bright_white", expand=False)
     console.print(panel)
 
-def concat_markdown_files(root_dir):
+def concat_markdown_files(root_dir, hosts):
     # Obtenir la date du jour au format YYYY-MM-DD
     date_du_jour = datetime.now().strftime('%Y-%m-%d')
     filename_pattern = f'resultat_scan_penchecker_{date_du_jour}_modified.md'
@@ -33,7 +33,11 @@ def concat_markdown_files(root_dir):
   - CVEs
     - Listing de toutes les CVEs trouvées pour tous les ports/services\n\n
 """)
-
+        outfile.write("## Listing des machines\n")
+        outfile.write("Voici la liste des adresses IP des machines détectées :\n\n")
+        for host in hosts:
+            outfile.write(f"- {host}\n")
+        outfile.write("\n\n")
     # Parcourir les sous-dossiers de root_dir
     for subdir, _, files in os.walk(root_dir):
         target_file = None
@@ -55,8 +59,8 @@ def concat_markdown_files(root_dir):
     text = f"\nLe rapport final en markdown a été créé : {output_filename}"
     messenger(text)
 
-def main():
-    concat_markdown_files('./Rapport_Tmp/')
+def main(hosts):
+    concat_markdown_files('./Rapport_Tmp/', hosts)
 
 if __name__ == "__main__":
     main()

@@ -45,13 +45,14 @@ def validate_and_clean_ip(host_ip):
 
 def detect_hosts(ip_address, subnet_mask):
     ip_range = get_network_address(ip_address, subnet_mask) + '/' + subnet_mask
-    fping_result = subprocess.run(['fping', '-c 1', '-g', ip_range], capture_output=True, text=True)
+    fping_result = subprocess.run(['fping', '-c 1', '-g', ip_range], capture_output=True)
+    result = subprocess.run(['ip', '-4', 'neigh'], capture_output=True, text=True)
     hosts = []
-    for line in fping_result.stdout.split('\n'):
-        parts = line.split()
-        if parts and not 'timed out' in line:
-            host_ip = parts[0]
-            if host_ip != ip_address: #Exclude the host address
+    for extract in result.stdout.split('\n'):
+        if 'lladdr' in extract:
+            parts = extract.split()
+            if parts:
+                host_ip = parts[0]
                 hosts.append(validate_and_clean_ip(host_ip))
     return hosts
 
@@ -72,7 +73,7 @@ def scan_hosts_for_vulns(hosts, result_directory):
         print("\n")
         for host in hosts:
             result_file = os.path.join(result_directory, f"result_nmap_{host}.xml")
-            subprocess.run(['nmap', '-sV', '-sS', '--script', 'vulners', '--script-args', 'mincvss=5.0', host, '-oX', result_file, '-A'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(['nmap', '-PN', '-sS', '-A', '--script', 'vulners', '--script-args', 'mincvss=5.0', host, '-oX', result_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             progress.update(task, advance=1)
 def main(interface):
     interface_name = interface
@@ -96,6 +97,6 @@ Détail : {hosts}
     result_directory = create_result_directory()
     scan_hosts_for_vulns(hosts, result_directory)
     #print(f"Scanning completed. Results are saved in {result_directory}") #debug line
-
+    return hosts
 if __name__ == "__main__":
     main()

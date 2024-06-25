@@ -29,7 +29,7 @@ print(f"""{Fore.RED}
     ██║░░░░░███████╗██║░╚███║███████╗██║░░██║███████╗███████╗██║░╚██╗███████╗██║░░██║
     ╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
 
-                                                    [●] Version: 1.6.3
+                                                    [●] Version: 1.6.4
                                                     [●] @Zerxeas | @Dijiox | @IAgonYI\n    
 
 {Style.RESET_ALL}""")
@@ -60,7 +60,7 @@ def main():
     if not os.path.exists(rapport_dir):
         os.makedirs(rapport_dir)
 
-    Starter.main(interface)
+    hosts = Starter.main(interface)
 
     with Progress() as progress:
         console = Console()
@@ -91,7 +91,7 @@ def main():
                 pass
             progress.update(task, advance=1)
 
-    Markdown_Rapport_Maker.main()
+    Markdown_Rapport_Maker.main(hosts)
     PDF_Rapport_Maker.main(f'./Rapport_Final_{today}.md')
 
 
