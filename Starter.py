@@ -72,7 +72,7 @@ def scan_hosts_for_vulns(hosts, result_directory):
         print("\n")
         for host in hosts:
             result_file = os.path.join(result_directory, f"result_nmap_{host}.xml")
-            subprocess.run(['nmap', '-sV', '--script', 'vulners', '--script-args', 'mincvss=5.0', host, '-oX', result_file, '-A'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(['nmap', '-sV', '-sS', '--script', 'vulners', '--script-args', 'mincvss=5.0', host, '-oX', result_file, '-A'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             progress.update(task, advance=1)
 def main(interface):
     interface_name = interface
