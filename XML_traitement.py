@@ -2,6 +2,26 @@ import xml.etree.ElementTree as ET
 import os
 import datetime
 import shutil
+import logging
+
+# configuration du logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# configuration de la console
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.ERROR)
+console_formatter =logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(console_formatter)
+
+# configuration du logger en mode fichier
+file_handler = logging.FileHandler('./logs/XMLtraitement.log', mode='w')
+file_handler.setLevel(logging.DEBUG)
+file_formatter =logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(file_formatter)
+
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
 
 def store_file_in_directory(filename, ip_dir):
     # Ensure the target directory exists
@@ -15,9 +35,9 @@ def store_file_in_directory(filename, ip_dir):
     # Move the file
     if os.path.exists(src_file_path):
         shutil.move(src_file_path, dest_file_path)
-        #print(f"Moved {filename} to {ip_dir}") #debug line
+        logger.info(f"Moved {filename} to {ip_dir}") #debug line
     else:
-        print(f"File {filename} does not exist in the current directory")
+        logger.error(f"File {filename} does not exist in the current directory")
 def xml_proccessing(xml_file, ip_dir):
     # Parse the XML file
     tree = ET.parse(xml_file)
@@ -27,7 +47,7 @@ def xml_proccessing(xml_file, ip_dir):
     try:
         ip_address = root.find('host/address[@addrtype="ipv4"]').get('addr')
     except:
-        print("Can't check host directory " + ip_dir)
+        logger.error("Can't check host directory " + ip_dir)
         return
 
     # Extract OS information
@@ -66,9 +86,9 @@ def xml_proccessing(xml_file, ip_dir):
                             cvss_score = float(parts[1])
                             cve_id = parts[0]
                             cve_list.append((cvss_score, cve_id))
-                            #print(f"Found CVE: {cve_id} with CVSS score: {cvss_score} for port: {portid}")  # Debug line
+                            logger.info(f"Found CVE: {cve_id} with CVSS score: {cvss_score} for port: {portid}")  # Debug line
                         except ValueError:
-                            # Ignore lines where the second part is not a valid CVSS score
+                            logger.info(f"{ValueError}")
                             continue
         cves[portid] = cve_list
 
@@ -117,7 +137,7 @@ def xml_proccessing(xml_file, ip_dir):
                     f.write(f"<span style='color:{cve_color};'>**{cvss_score}** | {cve}</span>\n\n")
 
     store_file_in_directory(filename, ip_dir)
-    #print(f"Markdown file {filename} generated successfully.") #debug line
+    logger.info(f"Markdown file {filename} generated successfully.") #debug line
 
 def main(file_path, ip_dir):
     xml_proccessing(file_path, ip_dir)

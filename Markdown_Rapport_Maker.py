@@ -48,7 +48,7 @@ def concat_markdown_files(root_dir, hosts):
 
         if target_file:
             file_path = os.path.join(subdir, target_file)
-            print(file_path)
+            #print(file_path)
             # Read the content of the file and add it to the output file
             with open(file_path, 'r', encoding='utf-8') as infile:
                 content = infile.read()

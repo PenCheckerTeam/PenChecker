@@ -6,6 +6,26 @@ import ipaddress
 from rich.progress import Progress
 from rich.console import Console
 from rich.panel import Panel
+import logging
+
+# configuration du logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# configuration de la console
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.ERROR)
+console_formatter =logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(console_formatter)
+
+# configuration du logger en mode fichier
+file_handler = logging.FileHandler('./logs/starter.log', mode='w')
+file_handler.setLevel(logging.DEBUG)
+file_formatter =logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(file_formatter)
+
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
 
 def messenger(text):
     console = Console()
@@ -23,6 +43,7 @@ def get_interface_ip(interface_name):
     if ip_match:
         ip_address = ip_match.group(1)
         subnet_mask = ip_match.group(2)
+        logger.info(f"Configuration réseau récupérée : @ip = {ip_address} | subnet mask = {subnet_mask}")
         return ip_address, subnet_mask
     return None, None
 
@@ -30,6 +51,7 @@ def get_network_address(ip_address, subnet_mask):
     # Créer un objet IPv4Network à partir de l'adresse IP et du masque de sous-réseau
     network = ipaddress.IPv4Network(f"{ip_address}/{subnet_mask}", strict=False)
     # Retourner l'adresse réseau
+    logger.info(f"Adresse du réseau sur lequel est branché le programme : {network}")
     return str(network.network_address)
     
 def validate_and_clean_ip(host_ip):
@@ -79,7 +101,7 @@ def main(interface):
     interface_name = interface
     ip_address, netmask = get_interface_ip(interface_name)
     if ip_address is None:
-        print(f"Could not find IP address for interface {interface_name}.")
+        logger.error(f"Could not find IP address for interface {interface_name}.")
         return
 
     hosts = detect_hosts(ip_address, netmask)
@@ -92,11 +114,11 @@ Détail : {hosts}
     messenger(text)
 
     if not hosts:
-        print("No hosts detected.")
+        logger.error(f"No hosts detected, see the output of hosts variable here : {hosts}")
         return
     result_directory = create_result_directory()
     scan_hosts_for_vulns(hosts, result_directory)
-    #print(f"Scanning completed. Results are saved in {result_directory}") #debug line
+    logger.info(f"Scanning completed. Results are saved in {result_directory}") #debug line
     return hosts
 if __name__ == "__main__":
     main()
