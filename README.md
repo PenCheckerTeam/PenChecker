@@ -22,6 +22,11 @@ The features currently available on the software are :
 Then you can just run the Main.py program.  
 `python Main.py --interface Interface_name` let you choose the network interface (without it's eth0 by default)
 
+### Debug :  
+Since 1.6.5 and still improving it, the codes is progressivly commented and functions got their docstrings.  
+If you face bug or error will running the project, you can find logs in the logs/ folder that's created. You got one .log file by main program for this project.  
+And more important, do not hesitate to contact us to remediate to this !
+
 ## How to push
 
 push.sh is there to help you commit corrections or modifications you want to propose
