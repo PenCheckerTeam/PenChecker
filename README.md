@@ -18,7 +18,7 @@ The features currently available on the software are :
 - `chmod +x install.sh`
 - `./install.sh`, which will install everything needed, with the python dependencies with pip in .venv
 
-:warning: Don't forget to activate the virtual environment : `source .venv/bin/activate`  
+:warning: Don't forget to activate the virtual environment : `source .venv/bin/activate` in an elevated environment (required for scan) 
 Then you can just run the Main.py program.  
 `python Main.py --interface Interface_name` let you choose the network interface (without it's eth0 by default)
 
