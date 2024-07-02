@@ -201,6 +201,8 @@ def main(file_path, output_image_path):
 
     :param file_path: Chemin vers le fichier markdown dans le dossier nommé par l'@IP de la machine concernée
     :param output_image_path: Chemin vers le dossier dans lequel sauvegarder les graphiques
+    :type file_path: str
+    :type output_image_path: str
 
     :return: Ne return rien, créer ou non dans le dossier les graphiques, et si ils sont crées, les import dans un
     nouveau fichier markdown portant le même nom avec "_modified" à la fin

@@ -5,12 +5,31 @@ from rich.console import Console
 from rich.panel import Panel
 
 def messenger(text):
+    """
+    Fonction qui sert à afficher le message donné en input dans un cadre en sortie terminal
+
+    :param text: Texte à mettre en forme sur la sortie terminal
+    :type text: str
+
+    :return: rien, affiche juste le message
+    """
     console = Console()
     panel = Panel(text, title="Infos", style="bold white",
                   border_style="bright_white", expand=False)
     console.print(panel)
 
 def concat_markdown_files(root_dir, hosts):
+    """
+    Fonction qui parcours tous les dossiers dans "Rapport_Tmp/" et qui concatene les fichiers rapport en markdown de
+    chacunes des machines.
+
+    :param root_dir: Dossier parent dans lequel parcourir les sous dossiers pour trouver les rapports temporaires
+    :param hosts: Listes des machines qui ont été scannées par l'outil
+    :type root_dir: str
+    :param hosts: list
+
+    :return: rien, enregistre à la racine du programme le fichier rapport markdown définitif
+    """
     # Obtenir la date du jour au format YYYY-MM-DD
     date_du_jour = datetime.now().strftime('%Y-%m-%d')
     filename_pattern = f'resultat_scan_penchecker_{date_du_jour}_modified.md'
