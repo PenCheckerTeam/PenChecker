@@ -18,15 +18,33 @@ def messenger(text):
                   border_style="bright_white", expand=False)
     console.print(panel)
 
-def concat_markdown_files(root_dir, hosts):
+def sorted_output(list):
     """
-    Fonction qui parcours tous les dossiers dans "Rapport_Tmp/" et qui concatene les fichiers rapport en markdown de
-    chacunes des machines.
+    Fonction de tri qui tri une liste composé de doublets, dans l'odre décroissants du deuxième éléments
 
-    :param root_dir: Dossier parent dans lequel parcourir les sous dossiers pour trouver les rapports temporaires
-    :param hosts: Listes des machines qui ont été scannées par l'outil
+    Exemple : [['adresse_ip_1', 57], ['adresse_ip_2', 34], ['adresse_ip_3', 78]]
+    devient : [['adresse_ip_3', 78], ['adresse_ip_1', 57], ['adresse_ip_2', 34]]
+
+    :param list: liste a trier.
+    :type list: list
+
+    :return: La liste triée
+    """
+    # Tri de la liste selon le deuxième élément de chaque sous-liste en ordre décroissant
+    sorted_list = sorted(list, key=lambda x: x[1], reverse=True)
+    return sorted_list
+
+def concat_markdown_files(root_dir, hosts, CVEs_ordered_machines):
+    """
+    Fonction qui parcourt tous les dossiers dans "Rapport_Tmp/" et qui concatène les fichiers rapport en markdown de
+    chacune des machines.
+
+    :param root_dir: Dossier parent dans lequel parcourir les sous-dossiers pour trouver les rapports temporaires
+    :param hosts: Liste des machines qui ont été scannées par l'outil
+    :param CVEs_ordered_machines: Liste des machines triées selon leur ordre de CVEs
     :type root_dir: str
-    :param hosts: list
+    :type hosts: list
+    :type CVEs_ordered_machines: list
 
     :return: rien, enregistre à la racine du programme le fichier rapport markdown définitif
     """
@@ -44,10 +62,10 @@ def concat_markdown_files(root_dir, hosts):
         outfile.write(""" 
 - La machine concernée
   - Port and Services
-    - Listes des différents ports/services accessibles avec numéros de versions
+    - Liste des différents ports/services accessibles avec numéros de versions
   - Répartition des CVEs en fonction des services
     - Représentation graphique camembert
-  - Repartition des CVEs en fonction de leur score CVSS
+  - Répartition des CVEs en fonction de leur score CVSS
     - Représentation graphique barre
   - CVEs
     - Listing de toutes les CVEs trouvées pour tous les ports/services\n\n
@@ -57,29 +75,35 @@ def concat_markdown_files(root_dir, hosts):
         for host in hosts:
             outfile.write(f"- {host}\n")
         outfile.write("\n\n")
-    # Parcourir les sous-dossiers de root_dir
-    for subdir, _, files in os.walk(root_dir):
-        target_file = None
-        if filename_pattern in files:
-            target_file = filename_pattern
-        elif filename_emptycve_pattern in files:
-            target_file = filename_emptycve_pattern
 
-        if target_file:
-            file_path = os.path.join(subdir, target_file)
-            #print(file_path)
-            # Read the content of the file and add it to the output file
-            with open(file_path, 'r', encoding='utf-8') as infile:
-                content = infile.read()
-                with open(output_filename, 'a', encoding='utf-8') as outfile:
-                    outfile.write(content)
-                    outfile.write("\n\n")
+    # Parcourir les sous-dossiers de root_dir dans l'ordre donné par CVEs_ordered_machines
+    for machine in CVEs_ordered_machines:
+        ip_address = machine[0]
+        machine_dir = os.path.join(root_dir, ip_address)
+        if os.path.isdir(machine_dir):
+            target_file = None
+            for file in os.listdir(machine_dir):
+                if file == filename_pattern:
+                    target_file = filename_pattern
+                    break
+                elif file == filename_emptycve_pattern:
+                    target_file = filename_emptycve_pattern
+
+            if target_file:
+                file_path = os.path.join(machine_dir, target_file)
+                # Read the content of the file and add it to the output file
+                with open(file_path, 'r', encoding='utf-8') as infile:
+                    content = infile.read()
+                    with open(output_filename, 'a', encoding='utf-8') as outfile:
+                        outfile.write(content)
+                        outfile.write("\n\n")
 
     text = f"\nLe rapport final en markdown a été créé : {output_filename}"
     messenger(text)
 
-def main(hosts):
-    concat_markdown_files('./Rapport_Tmp/', hosts)
+def main(hosts, CVEs_ordered_machines):
+    CVEs_ordered = sorted_output(CVEs_ordered_machines)
+    concat_markdown_files('./Rapport_Tmp/', hosts, CVEs_ordered)
 
 if __name__ == "__main__":
     main()

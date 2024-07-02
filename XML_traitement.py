@@ -52,6 +52,26 @@ def store_file_in_directory(filename, ip_dir):
     except Exception as e:
         logger.error(f"Exception in store_file_in_directory: {e}")
 
+def validate_and_clean_ip(host_ip):
+    """
+    Fonction qui permet de traiter les adresses IP pour être sûr d'obtenir une adresse de la forme xxx.xxx.xxx.xxx
+    et ne pas avoir d'erreur du à la présence d'un caractère en trop
+
+    :param host_ip: IP a vérifier par la fonction
+    :type host_ip: str
+
+    :return: Renvoie l'adresse IP au bon format pour la réutiliser
+    """
+    try:
+        pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+        match = re.search(pattern, host_ip)
+        if match:
+            valid_ip = match.group(0)
+            return valid_ip
+    except Exception as e:
+        logger.error(f"Exception lors de la validation de l'IP: {e}")
+    return None
+
 def xml_proccessing(xml_file, ip_dir):
     """
     Grosse fonction qui est appelée successivement par Main.py pour chaque fichier xml dans le dossier xml_result_{today}
@@ -64,8 +84,9 @@ def xml_proccessing(xml_file, ip_dir):
     :type xml_file: str
     :type ip_dir: str
 
-    :return: Aucun return, la fonction enregistre juste le résultat dans un fichier markdown.
+    :return: le compte total des CVEs de la machine et la fonction enregistre juste le résultat dans un fichier markdown.
     """
+
     try:
         # Parsing du fichier xml
         tree = ET.parse(xml_file)
@@ -81,8 +102,8 @@ def xml_proccessing(xml_file, ip_dir):
         # Extraction des adresses IP
         ip_address = root.find('host/address[@addrtype="ipv4"]').get('addr')
     except AttributeError as e:
-        logger.error(f"Cannot find IP address in XML file {xml_file}: {e}")
-        return
+        logger.error(f"Cannot find IP address in XML file {xml_file}: {e}, choosing directory name based on IP address")
+        ip_address = validate_and_clean_ip(ip_dir)
     except Exception as e:
         logger.error(f"Exception in extracting IP address from {xml_file}: {e}")
         return
@@ -101,6 +122,7 @@ def xml_proccessing(xml_file, ip_dir):
         # Extraction des ports et services
         ports_services = []
         cves = {}
+        cve_count_tot = 0
 
         for port in root.findall('host/ports/port'):
             portid = port.get('portid')
@@ -137,6 +159,7 @@ def xml_proccessing(xml_file, ip_dir):
 
             # Compte des CVEs par services pour les premières lignes du rapport qui donnes le nombres de CVE par services
             cve_count = len(cve_list)
+            cve_count_tot += cve_count
             service_info = f"{service_name} {product} {version}".strip()
 
             if cve_count == 0:
@@ -187,9 +210,12 @@ def xml_proccessing(xml_file, ip_dir):
     except Exception as e:
         logger.error(f"Exception in generating markdown file {filename}: {e}")
 
+    return cve_count_tot
+
 def main(file_path, ip_dir):
     try:
-        xml_proccessing(file_path, ip_dir)
+        cve_count = xml_proccessing(file_path, ip_dir)
+        return cve_count
     except Exception as e:
         logger.error(f"Exception in main: {e}")
 

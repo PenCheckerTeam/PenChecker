@@ -1,6 +1,8 @@
 import re
 import pandas as pd
 pd.options.mode.chained_assignment = None  # default='warn'
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import Counter
 import os

@@ -1,4 +1,5 @@
 import os
+import traceback
 from datetime import datetime
 import logging
 
@@ -161,6 +162,8 @@ def main():
         xml_dir = f'xml_result_{today}'
         rapport_dir = 'Rapport_Tmp'
 
+        CVEs_ordered_machines = []
+
         if not os.path.exists(rapport_dir):
             os.makedirs(rapport_dir)
 
@@ -188,8 +191,10 @@ def main():
                     if ip_dir is None:
                         continue
 
-                    # Lancement successif des différentes fonctions dans l'ordre approprié
-                    XML_traitement.main(xml_file, ip_dir)
+                    # Lancement successif des différentes fonctions dans l'ordre approprié & récupération du nombre de CVEs
+                    cve_count = XML_traitement.main(xml_file, ip_dir)
+                    machine_infos_tmp = [ip, int(cve_count)]
+                    CVEs_ordered_machines.append(machine_infos_tmp)
 
                     today = datetime.today().strftime('%Y-%m-%d')
                     md_name = f"resultat_scan_penchecker_{today}.md"
@@ -209,11 +214,12 @@ def main():
                     logger.error(f"Error processing file {filename}: {e}")
                     continue
         #Création des rapports finaux en markdown / PDF
-        Markdown_Rapport_Maker.main(hosts)
+        Markdown_Rapport_Maker.main(hosts, CVEs_ordered_machines)
         PDF_Rapport_Maker.main(f'./Rapport_Final_{today}.md')
         set_permissions_777('./')
     except Exception as e:
         logger.error(f"Exception in main: {e}")
+        raise
 
 if __name__ == '__main__':
     try:
