@@ -39,7 +39,6 @@ push.sh is there to help you commit corrections or modifications you want to pro
 
 * To all the people who contacted us via LinkedIn to advise us and give their opinion on the features we had planned for our solution.
 
-*Laurent Minne 
 ## Disclaimer
 
 This project is intended solely for educational and defensive purposes. The creators and contributors are not responsible for any misuse or malicious use of this tool. Use it responsibly and ethically, adhering to all relevant laws and regulations.
