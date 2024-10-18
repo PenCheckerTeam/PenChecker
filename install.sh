@@ -89,7 +89,7 @@ fi
 
 # Installation de python3.11-venv
 print_step "Installation de python3.11-venv..."
-if apt-get install -y python3.11-venv; then
+if apt-get install -y python3-venv; then
     print_success "python3.11-venv installé avec succès."
 else
     print_error "Erreur lors de l'installation de python3.11-venv."
